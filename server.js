@@ -60,13 +60,14 @@
   started_at = new Date;
 
   four_oh_four = function(resp, msg, url) {
-    error_log("" + msg + ": " + ((url != null ? url.format() : void 0) || 'unknown'));
-    resp.writeHead(404);
+    var err = msg + ": " + ((url != null ? url.format() : void 0) || 'unknown');
+    resp.setHeader("Content-Type", "application/json");
+    resp.writeHead(500);
     if (resp.headers) {
       resp.headers["expires"] = "0";
       resp.headers["cache-control"] = "no-cache, no-store, private, must-revalidate";
     }
-    return finish(resp, "Not Found");
+    return finish(resp, JSON.stringify({ error: err}));
   };
 
   finish = function(resp, str) {
@@ -111,8 +112,7 @@
         } else {
           newHeaders = {
             'content-type': srcResp.headers['content-type'],
-            'cache-control': srcResp.headers['cache-control'] || 'public, max-age=31536000',
-            'Camo-Host': camo_hostname,
+            'cache-control': 'public, max-age=3600', // make the browser cache this response for an hour
             'X-Content-Type-Options': 'nosniff'
           };
           if (eTag = srcResp.headers['etag']) {

@@ -1,8 +1,7 @@
 {
   "name": "mozillawebmakerproxy.net",
-  "version": "0.0.1",
-  "dependencies": {
-  },
+  "version": "0.0.2",
+  "dependencies": {},
   "engines": {
     "node": "^0.10.21"
   }

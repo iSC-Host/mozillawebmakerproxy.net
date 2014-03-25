@@ -41,5 +41,10 @@
   "image/x-xwindowdump",
 
   "text/css",
-  "text/javascript"
+
+  "application/x-javascript",
+  "application/javascript",
+  "application/ecmascript",
+  "text/javascript",
+  "text/ecmascript"
 ]

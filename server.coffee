@@ -36,13 +36,15 @@ current_connections = 0
 started_at          = new Date
 
 four_oh_four = (resp, msg, url) ->
-  error_log "#{msg}: #{url?.format() or 'unknown'}"
-  resp.writeHead 404
+  err = "#{msg}: #{url?.format() or 'unknown'}"
+  error_log err
+  resp.setHeader "Content-Type", "application/json"
+  resp.writeHead 500
   if resp.headers
     resp.headers["expires"] = "0"
     resp.headers["cache-control"] = "no-cache, no-store, private, must-revalidate"
 
-  finish resp, "Not Found"
+  finish resp, JSON.stringify({ error: err })
 
 finish = (resp, str) ->
   current_connections -= 1

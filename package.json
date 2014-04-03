@@ -1,7 +1,8 @@
 {
-  "name": "mozillawebmakerproxy.net",
-  "version": "0.0.2",
-  "dependencies": {},
+  "name": "camo",
+  "version": "2.0.5+webmaker",
+  "dependencies": {
+  },
   "engines": {
     "node": "^0.10.21"
   }

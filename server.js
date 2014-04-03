@@ -21,7 +21,7 @@
 
   port = parseInt(process.env.PORT || 8081);
 
-  version = "2.0.2";
+  version = require(Path.resolve(__dirname, "package.json")).version;
 
   shared_key = process.env.CAMO_KEY || '0x24FEEDFACEDEADBEEFCAFE';
 
@@ -118,7 +118,8 @@
             'content-type': srcResp.headers['content-type'],
             'cache-control': srcResp.headers['cache-control'] || 'public, max-age=31536000',
             'Camo-Host': camo_hostname,
-            'X-Content-Type-Options': 'nosniff'
+            'X-Content-Type-Options': 'nosniff',
+            'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
           };
           if (eTag = srcResp.headers['etag']) {
             newHeaders['etag'] = eTag;
@@ -229,7 +230,7 @@
   };
 
   server = Http.createServer(function(req, resp) {
-    var dest_url, encoded_url, hmac, hmac_digest, query_digest, transferredHeaders, url, url_type, user_agent, _base, _ref, _ref1;
+    var dest_url, encoded_url, error, hmac, hmac_digest, query_digest, transferredHeaders, url, url_type, user_agent, _base, _ref, _ref1;
     if (req.method !== 'GET' || req.url === '/') {
       resp.writeHead(200);
       return resp.end('hwhat');
@@ -272,7 +273,12 @@
       }
       if ((url.pathname != null) && dest_url) {
         hmac = Crypto.createHmac("sha1", shared_key);
-        hmac.update(dest_url, 'utf8');
+        try {
+          hmac.update(dest_url, 'utf8');
+        } catch (_error) {
+          error = _error;
+          return four_oh_four(resp, "could not create checksum");
+        }
         hmac_digest = hmac.digest('hex');
         if (hmac_digest === query_digest) {
           url = Url.parse(dest_url);
@@ -286,7 +292,7 @@
     }
   });
 
-  console.log("SSL-Proxy running on " + port + " with pid:" + process.pid + ".");
+  console.log("SSL-Proxy running on " + port + " with pid:" + process.pid + " version:" + version + ".");
 
   server.listen(port);
 

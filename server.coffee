@@ -39,7 +39,7 @@ four_oh_four = (resp, msg, url) ->
   err = "#{msg}: #{url?.format() or 'unknown'}"
   error_log err
   resp.writeHead 400,
-    "content-type", "application/json; charset=utf-8"
+    "content-type": "application/json; charset=utf-8"
     expires: "0"
     "cache-control": "no-cache, no-store, private, must-revalidate"
 

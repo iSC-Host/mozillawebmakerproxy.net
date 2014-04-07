@@ -63,7 +63,8 @@
     var err;
     err = "" + msg + ": " + ((url != null ? url.format() : void 0) || 'unknown');
     error_log(err);
-    resp.writeHead(400, "content-type", "application/json; charset=utf-8", {
+    resp.writeHead(400, {
+      "content-type": "application/json; charset=utf-8",
       expires: "0",
       "cache-control": "no-cache, no-store, private, must-revalidate"
     });

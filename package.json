@@ -1,8 +1,7 @@
 {
   "name": "camo",
-  "version": "2.0.5+webmaker",
-  "dependencies": {
-  },
+  "version": "2.0.5-webmaker2",
+  "dependencies": {},
   "engines": {
     "node": "^0.10.21"
   }

@@ -38,11 +38,10 @@ started_at          = new Date
 four_oh_four = (resp, msg, url) ->
   err = "#{msg}: #{url?.format() or 'unknown'}"
   error_log err
-  resp.setHeader "Content-Type", "application/json"
-  resp.writeHead 500
-  if resp.headers
-    resp.headers["expires"] = "0"
-    resp.headers["cache-control"] = "no-cache, no-store, private, must-revalidate"
+  resp.writeHead 400,
+    "content-type", "application/json; charset=utf-8"
+    expires: "0"
+    "cache-control": "no-cache, no-store, private, must-revalidate"
 
   finish resp, JSON.stringify({ error: err })
 

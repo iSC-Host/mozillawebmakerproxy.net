@@ -63,12 +63,10 @@
     var err;
     err = "" + msg + ": " + ((url != null ? url.format() : void 0) || 'unknown');
     error_log(err);
-    resp.setHeader("Content-Type", "application/json");
-    resp.writeHead(500);
-    if (resp.headers) {
-      resp.headers["expires"] = "0";
-      resp.headers["cache-control"] = "no-cache, no-store, private, must-revalidate";
-    }
+    resp.writeHead(400, "content-type", "application/json; charset=utf-8", {
+      expires: "0",
+      "cache-control": "no-cache, no-store, private, must-revalidate"
+    });
     return finish(resp, JSON.stringify({
       error: err
     }));
